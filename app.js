@@ -1,23 +1,15 @@
-var express     = require("express"),
-    app         = express(),
-    bodyParser  = require("body-parser"),
-    mongoose    = require("mongoose");
+const express     = require("express");
+const app         = express();
+const bodyParser  = require("body-parser");
+const mongoose    = require("mongoose");
+const Campground  = require("./models/campground");
+const seedDB      = require("./seeds.js");
 
+seedDB();
 mongoose.connect("mongodb://localhost/yelp_camp"); // after slash of the local host name the db which doesn't exist yet.
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
-// SHEMA SETUP
-
-var campgroundSchema = new mongoose.Schema({
-   name: String,
-   image: String,
-   description: String
-});
-
-//COMPILE IT INTO MODEL
-
-var Campground = mongoose.model("Campground", campgroundSchema); //"Campground" is a sigular name of the model 
 
 /*Campground.create(
     {
