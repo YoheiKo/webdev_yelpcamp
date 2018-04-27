@@ -25,7 +25,7 @@ const data = [
 ]
 
 
-//Remove all campgrounds. whipe everything out of the db. Wrap it in a function
+//Start by Removing all campgrounds. whipe everything out of the db. Wrap it in a function
 function seedDB(){
     Campground.remove({}, function(err){
         if(err){
@@ -35,12 +35,27 @@ function seedDB(){
         //Add a few campground looping through the data.
         //Seed is gonna represent one of the object inside the array data
         data.forEach(function(seed){
-            Campground.create(seed, function(err, data){
+            Campground.create(seed, function(err, onecamp){
                 if(err){
                     console.log(err);
                 } else {
                     console.log("added campground");
-                    //Add a few comments
+                    //Create comments on each one campground. Comments are all the same. So we are gonna end up  with three different posts
+                    Comment.create({
+                        text:"This place is great, but I wish there was internet",
+                        author:"Homer"
+                    }, function(err, comment){ // This "comment" in the callback is the new comment we just created
+                        if(err){
+                            console.log(err);
+                        } else {
+                            //If we can create a comment, then we are going to associated with campground
+                            onecamp.comments.push(comment);
+                            onecamp.save();
+                            console.log("Created new comments");
+                            
+                        }
+                    }
+                    ):
 
                 }
             });   
